@@ -352,7 +352,7 @@ class Game {
     /// Get the team that goes first
     func getFirstTeam() -> Team {
         if firstTeam != nil {
-            return (firstTeam == Team.blue) ? Team.red : Team.blue
+            return (firstTeam == Team.blue) ? Team.blue : Team.red
         }
         else {
             //let num = Int.random(in: 0..<2)

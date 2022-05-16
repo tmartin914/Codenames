@@ -76,6 +76,68 @@ class GameTest: XCTestCase {
         XCTAssertEqual(-1, game.guessesLeft)
     }
     
+    /// Test clearClue()
+    func testClearClue() {
+        // given
+        game.clue = "clue"
+        game.numClue = 2
+        game.guessesLeft = 2
+        
+        // when
+        game.clearClue()
+        
+        // then
+        XCTAssertEqual("-1", game.clue)
+        XCTAssertEqual(-1, game.numClue)
+        XCTAssertEqual(-1, game.guessesLeft)
+    }
+    
+    /// Test setPlayers()
+    func testSetPlayers() {
+        // when
+        game.setPlayers()
+        
+        // then
+        XCTAssertEqual(2, game.bluePlayers.count)
+        XCTAssertEqual(2, game.redPlayers.count)
+        XCTAssertNotNil(game.bluePlayers.first { $0.name == "ty"})
+        XCTAssertNotNil(game.bluePlayers.first { $0.name == "zack"})
+        XCTAssertNotNil(game.redPlayers.first { $0.name == "matt"})
+        XCTAssertNotNil(game.redPlayers.first { $0.name == "brian"})
+    }
+    
+    /// Test getFirstTeam()
+    func testGetFirstTeam() {
+        // given
+        game.firstTeam = Team.blue
+        
+        // when
+        var firstTeam = game.getFirstTeam()
+        
+        // then
+        XCTAssertEqual(Team.blue, firstTeam)
+        
+        // given
+        game.firstTeam = Team.red
+        
+        // when
+        firstTeam = game.getFirstTeam()
+        
+        // then
+        XCTAssertEqual(Team.red, firstTeam)
+    }
+    
+    /// Test getWordList()
+    func testGetWordList() {
+        // when
+        let wordList = game.getWordList()
+        
+        // then
+        XCTAssertEqual(187, wordList.count)
+    }
+    
+    // TODO: write remaining tests
+    
     /// Returns a Game object for testing
     func getTestGame() -> Game {
         var players : [Player] = []

@@ -8,14 +8,19 @@
 
 import UIKit
 import Firebase
-//import FirebaseDatabase
-//import FirebaseAuth
 
+/// Class for managing player games and interacting with Firebase
 class PlayerGameManager: NSObject {
+    /// Firebase reference
     static let ref = Database.database().reference ()
+    
+    /// Player firebase reference
     static let playerRef = ref.child("Players")
+    
+    /// List of player games
     static var games = [PlayerGame]()
     
+    /// Record player game status in the DB given player & game IDs
     static func recordPlayerGameStatus(playerID: String, gameID: String) {
         let gameData = getGame(gameID: gameID).getGameData()
         
@@ -29,10 +34,12 @@ class PlayerGameManager: NSObject {
         })
     }
     
+    /// Get player game given a game ID
     static func getGame(gameID: String) -> PlayerGame {
         return games.filter { $0.gameID == gameID }.first!
     }
     
+    /// Returns flag indicating if there is a player game with the given game ID
     static func isGameID(gameID: String) -> Bool {
         if games.contains(where: { $0.gameID == gameID }) {
             return true
@@ -41,6 +48,8 @@ class PlayerGameManager: NSObject {
         }
     }
     
+    /// Load all player games frm the DB
+    /// As new player games get created, update the game list
     static func loadGames(userID: String, completion: @escaping(_ result:String) -> Void) {
         playerRef.child(userID).child("Games").observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             let resultGames = snapshot.value as? NSDictionary
@@ -67,6 +76,7 @@ class PlayerGameManager: NSObject {
         })
     }
     
+    /// Record game update in DB given a game ID and game data
     static func recordGameUpdate(gameID: String, inGameData: NSMutableDictionary) {
         let gameData: NSMutableDictionary = [:]
         gameData["playerString"] = inGameData["players"] // TODO: i think this could change the order of players - do i care?
@@ -87,6 +97,7 @@ class PlayerGameManager: NSObject {
         }
     }
     
+    /// Update game data in DB given user & game UDs
     static func updateGame(userID: String, gameID: String, completion: @escaping(_ result:String) -> Void) {
         playerRef.child(userID).child("Games").child(gameID).observe(DataEventType.value, with: { (snapshot) in
             let resultValue = snapshot.value as? NSDictionary
@@ -115,6 +126,7 @@ class PlayerGameManager: NSObject {
         })
     }
     
+    /// Get game status data
     static func getGameStatusData() -> (Int,Int,Int) {
         var notStarted = 0
         var inProgress = 0
@@ -132,6 +144,7 @@ class PlayerGameManager: NSObject {
         return (notStarted, inProgress, completed)
     }
     
+    /// Create new player game
     static func createNewGame(userID: String, gameID: String) {
         let gameData: NSMutableDictionary = [:]
         
@@ -155,6 +168,7 @@ class PlayerGameManager: NSObject {
         })
     }
     
+    /// Update player game in DB for a new user joining the game
     static func joinGame(userID: String, gameID: String, playerString: String) {
         let gameData: NSMutableDictionary = [:]
         
@@ -186,6 +200,7 @@ class PlayerGameManager: NSObject {
         }
     }
     
+    /// Remove player game from DB
     static func removeGame(gameID: String, userID: String) {
         if isGameID(gameID: gameID) {
             let strings = getGame(gameID: gameID).playerString.components(separatedBy: ";")
@@ -198,7 +213,8 @@ class PlayerGameManager: NSObject {
         }
     }
     
-    static func getGameByType(status: GameStatus, index: Int) -> PlayerGame {
+    /// Get all games that have a given status
+    static func getGameByStatus(status: GameStatus, index: Int) -> PlayerGame {
         var gamesOfType = [PlayerGame]()
         for game in games {
             switch status {
@@ -221,6 +237,7 @@ class PlayerGameManager: NSObject {
     }
 }
 
+/// Date extension
 extension Date {
     func string(format: String) -> String {
         let formatter = DateFormatter()

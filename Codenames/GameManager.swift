@@ -9,12 +9,18 @@
 import UIKit
 import Firebase
 
+/// Class for managing games and interacting with Firebase
 class GameManager: NSObject {
+    /// Firebase reference
     static let ref = Database.database().reference()
+    
+    /// Game firebase reference
     static let gameRef = ref.child("Games")
     
+    /// List of games
     static var games = [Game]()
     
+    /// Record the game status given a game ID
     static func recordGameStatus(gameID: String) {
         let gameData = getGame(gameID: gameID).getGameData()
         
@@ -30,6 +36,7 @@ class GameManager: NSObject {
         PlayerGameManager.recordGameUpdate(gameID: gameID, inGameData: gameData)
     }
     
+    /// Returns flag indicating if given game ID is a real game ID
     static func isGameID(gameID: String) -> Bool {
         if games.contains(where: { $0.gameID == gameID }) {
             return true
@@ -38,10 +45,14 @@ class GameManager: NSObject {
         }
     }
     
+    /// Get game given a game ID
     static func getGame(gameID: String) -> Game {
         return games.filter { $0.gameID == gameID }.first!
     }
     
+    /// Load available games from the DB
+    /// As new games get created, update the game list
+    /// TODO: as the game list gets large, this won't be manageable
     static func loadGames(completion: @escaping(_ result:String) -> Void) {
         gameRef.observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             let resultGames = snapshot.value as? NSDictionary
@@ -79,6 +90,7 @@ class GameManager: NSObject {
         })
     }
     
+    /// Update a game in the DB given the game ID
     static func updateGame(gameID: String, completion: @escaping(_ result:String) -> Void) {
         gameRef.child(gameID).observe(DataEventType.value, with: { (snapshot) in
             let resultValue = snapshot.value as? NSDictionary

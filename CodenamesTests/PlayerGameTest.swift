@@ -62,6 +62,8 @@ class PlayerGameTest: XCTestCase {
         XCTAssertNotNil(playerGame.team2.first { $0.name == "brian"})
     }
     
+    // TODO: write remaining tests
+    
     /// Returns a PlayerGame object for testing
     func getTestPlayerGame() -> PlayerGame {
         return PlayerGame(userID: "ty", gameID: "n/a", playerString: "ty,blue;zack,red;brian,blue;matt,red", turn: "n/a", timestamp: "01-01-2022 00:00:00", started: "n/a", completed: "n/a")!

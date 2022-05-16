@@ -8,15 +8,25 @@
 
 import UIKit
 
+/// Class for a game info cell
 class GameInfoCell: UICollectionViewCell {
     
+    /// Current user's team label
     @IBOutlet weak var team1Label: UILabel!
+    
+    /// Opponent team label
     @IBOutlet weak var team2Label: UILabel!
+    
+    /// Turn label
     @IBOutlet weak var turnLabel: UILabel!
+    
+    /// Turn text label
     @IBOutlet weak var turnTextLabel: UILabel!
     
+    /// Game ID
     var gameID: String = ""
     
+    /// Setup game info cell
     func setup(game: PlayerGame) {
         gameID = game.gameID
         

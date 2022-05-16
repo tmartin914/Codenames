@@ -8,39 +8,86 @@
 
 import UIKit
 import Firebase
+import os.log
 
+/// Team select view controller
+@available(iOS 14.0, *)
 class TeamSelectViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
+    /// Logger
+    private let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: TeamSelectViewController.self)
+    )
+    
+    /// Firebase reference
     var ref: DatabaseReference?
+    
+    /// Available games firebase reference
     var refAvailableGames: DatabaseReference?
     
+    /// User ID
     var userID: String?
+    
+    /// Current user ID
     var currentUID: String?
+    
+    /// Game code
     var gameCode: String?
+    
+    /// Game ID
     var gameID: String?
 
+    /// Number of blue team players
     @IBOutlet weak var bluePlayerCount: UILabel!
+    
+    /// Table of blue team player names
     @IBOutlet weak var bluePlayers: UITableView!
+    
+    /// Nuber of red team players
     @IBOutlet weak var redPlayerCount: UILabel!
+    
+    /// Table of red team player names
     @IBOutlet weak var redPlayers: UITableView!
+    
+    /// Join blue team button
     @IBOutlet weak var blueJoinBtn: UIButton!
+    
+    /// Join red team button
     @IBOutlet weak var redJoinBtn: UIButton!
+    
+    /// Start game button
     @IBOutlet weak var startGameBtn: UIButton!
+    
+    /// Reset teams button
     @IBOutlet weak var resetTeamsBtn: UIButton!
+    
+    /// Game code field
     @IBOutlet weak var gameCodeField: UILabel!
+    
+    /// Back button
     @IBOutlet weak var backBtn: UIButton!
+    
+    /// Game code label
     @IBOutlet weak var gameCodeLabel: UILabel!
+    
+    /// Blue team label
     @IBOutlet weak var blueLabel: UILabel!
+    
+    /// Red team label
     @IBOutlet weak var redLabel: UILabel!
     
+    /// Join blue team
     @IBAction func joinBlue(_ sender: Any) {
         joinTeam(team: "blue")
     }
     
+    /// Join red team
     @IBAction func joinRed(_ sender: Any) {
         joinTeam(team: "red")
     }
     
+    /// Segue to game view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showGame" {
             if let destinationVC = segue.destination as? GameViewController {
@@ -50,6 +97,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
+    /// Join given team
     func joinTeam(team: String) {
         AvailableGameManager.getGame(gameCode: gameCode!).updatePlayerString(userID: userID!, team: team)
         //AvailableGameManager.recordGameStatus(gameCode: gameCode!)
@@ -58,7 +106,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         
         refAvailableGames!.child(gameCode!).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                self.logger.error("Data could not be saved: \(error.localizedDescription).")
             }
             else {
                 if AvailableGameManager.getGame(gameCode: self.gameCode!).bluePlayers.count == 2 && AvailableGameManager.getGame(gameCode: self.gameCode!).redPlayers.count == 2 {
@@ -72,10 +120,12 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         //PlayerGameManager.recordPlayerGameStatus(playerID: userID!, gameID: gameID!)
     }
     
+    /// Segue to home view
     @IBAction func goBack(_ sender: Any) {
         self.performSegue(withIdentifier: "backToHome", sender: self)
     }
     
+    /// Start game
     @IBAction func startGame(_ sender: Any) {
         /*let game = AvailableGameManager.getGame(gameCode: gameCode!)
         GameManager.updateGame(gameID: game.gameID) { (result:String) in
@@ -86,6 +136,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         self.performSegue(withIdentifier: "showGame", sender: self)
     }
     
+    /// Reset teams
     @IBAction func resetTeams(_ sender: Any) {
         AvailableGameManager.getGame(gameCode: gameCode!).clearPlayers()
         AvailableGameManager.recordGameStatus(gameCode: gameCode!)
@@ -95,6 +146,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         //PlayerGameManager.recordPlayerGameStatus(playerID: userID!, gameID: gameID!)
     }
     
+    /// Create new game
     func createGame() {
         let availableGame = AvailableGameManager.getGame(gameCode: gameCode!)
         availableGame.setInitialRoles()
@@ -104,6 +156,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         GameManager.recordGameStatus(gameID: game.gameID)
     }
     
+    /// Update players in game
     func updatePlayers() {
         let game = AvailableGameManager.getGame(gameCode: gameCode!)
         
@@ -126,6 +179,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         gameCodeField.setNeedsDisplay()
     }
     
+    /// On view appearing
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -140,10 +194,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         }
     }
     
-    /*override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }*/
-    
+    /// On view laoding
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -194,10 +245,12 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     // UITableViewDataSource Methods
     
+    /// Return number of rows in section
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
     }
     
+    /// Return cell at index
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let game = AvailableGameManager.getGame(gameCode: gameCode!)

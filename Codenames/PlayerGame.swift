@@ -158,7 +158,11 @@ class PlayerGame {
     
     /// Gets the teammate of the current user
     func getTeammate() -> String {
-        return team1.filter { $0.name != userID }.first!.name
+        guard let teammate = team1.filter({ $0.name != userID }).first else {
+            print ("Unable to get teammate")
+            return ""
+        }
+        return teammate.name
     }
 }
 

@@ -8,19 +8,33 @@
 
 import Foundation
 
+/// Class for an available game. Used for selecting teams
 class AvailableGame {
+    /// Game code (4 character string)
     var gameCode: String
+    
+    /// Game ID
     var gameID: String
+    
+    /// Player info as a string
     var playerString: String
+    
+    /// List of players on the blue team
     var bluePlayers = [Player]()
+    
+    /// List of players on the red team
     var redPlayers = [Player]()
     
+    /// Parameterized Initializer
     init(gameCode: String, gameID: String, playerString: String) {
         self.gameCode = gameCode
         self.gameID = gameID
         self.playerString = playerString
+        
+        updatePlayers(playerString: playerString)
     }
     
+    /// Returns whether a given user ID is in the game
     func isInGame(userId: String) -> Bool {
         for player in redPlayers {
             if userId == player.name {
@@ -37,6 +51,7 @@ class AvailableGame {
         return false
     }
     
+    /// Sets the initial player roles
     func setInitialRoles() {
         bluePlayers[0].role = Role.cluer
         bluePlayers[1].role = Role.guesser
@@ -46,10 +61,12 @@ class AvailableGame {
         playerString = "\(bluePlayers[0].name),\(bluePlayers[0].team),\(bluePlayers[0].role!);\(bluePlayers[1].name),\(bluePlayers[1].team),\(bluePlayers[1].role!);\(redPlayers[0].name),\(redPlayers[0].team),\(redPlayers[0].role!);\(redPlayers[1].name),\(redPlayers[1].team),\(redPlayers[1].role!);"
     }
     
+    /// Returns all the players in the game
     func getAllPlayers() -> [Player] {
         return bluePlayers + redPlayers
     }
     
+    /// Update the player string given inputs
     func updatePlayerString(userID: String, team: String) {
         if playerString == "" {
             playerString = "\(userID),\(team)"
@@ -58,6 +75,7 @@ class AvailableGame {
         }
     }
     
+    /// Update the players given the player string
     func updatePlayers(playerString: String) {
         var players = [Player]()
         
@@ -81,6 +99,7 @@ class AvailableGame {
         }
     }
     
+    /// Returns the game data as a dictionary
     func getGameData() -> NSMutableDictionary {
         let gameData: NSMutableDictionary = [:]
     
@@ -90,6 +109,7 @@ class AvailableGame {
         return gameData
     }
     
+    /// Clears the players in the game
     func clearPlayers() {
         playerString = ""
         bluePlayers = []

@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Padding label class
 @IBDesignable class PaddingLabel: UILabel {
     
     /*@IBInspectable var topInset: CGFloat = 3.0
@@ -45,6 +46,7 @@ import UIKit
     }
 }
 
+/// Padding Label extension
 extension PaddingLabel {
     @IBInspectable
     var leftTextInset: CGFloat {

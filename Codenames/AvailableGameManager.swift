@@ -9,11 +9,18 @@
 import UIKit
 import Firebase
 
+/// Class for managing available games and interacting with Firebase
 class AvailableGameManager: NSObject {
+    /// Firebase reference
     static let ref = Database.database().reference()
+    
+    /// Available game firebase reference
     static let availableGameRef = ref.child("AvailableGames")
+    
+    /// List of available games
     static var games = [AvailableGame]()
     
+    /// Record game status in DB given the game code
     static func recordGameStatus(gameCode: String) {
         let gameData = getGame(gameCode: gameCode).getGameData()
         
@@ -27,6 +34,7 @@ class AvailableGameManager: NSObject {
         })
     }
     
+    /// Create a new game for a given user ID
     static func createNewGame(userID: String) -> (String,String) {
         let gameData: NSMutableDictionary = [:]
         let gameCode = generateGameCode()
@@ -48,6 +56,7 @@ class AvailableGameManager: NSObject {
     }
     
     // TODO: modify to guarantee no match
+    /// Generate a random game code
     static func generateGameCode() -> String {
         let characters = "abcdefghijklmnopqrstuvwxyz0123456789"
         let gameCode = String((0..<4).map{ _ in characters.randomElement()! })
@@ -55,6 +64,7 @@ class AvailableGameManager: NSObject {
         return gameCode
     }
     
+    /// Return flag indicating if the given game code is a valid game code
     static func isGameCode(gameCode: String) -> Bool {
         if games.contains(where: { $0.gameCode == gameCode }) {
             return true
@@ -63,14 +73,17 @@ class AvailableGameManager: NSObject {
         }
     }
     
+    /// Get game given a game code
     static func getGame(gameCode: String) -> AvailableGame {
         return games.filter { $0.gameCode == gameCode }.first!
     }
     
+    /// Get game code given a game ID
     static func getGameCode(gameID: String) -> String {
         return games.filter { $0.gameID == gameID }.first!.gameCode
     }
     
+    /// Update the list of available games as new games get created in the DB
     static func watchGames(completion: @escaping(_ result:String) -> Void) {
         
         availableGameRef.queryOrdered(byChild: "uid").observe(.childAdded, with: {
@@ -128,6 +141,7 @@ class AvailableGameManager: NSObject {
         })
     }
     
+    /// Update a game if it changes in the DB
     static func watchGame(gameCode: String, completion: @escaping(_ result:String) -> Void) {
         availableGameRef.child(gameCode).observe(DataEventType.value, with: {
             snapshot in

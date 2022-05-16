@@ -8,10 +8,13 @@
 
 import UIKit
 
+/// Class for a game cell
 class GameCell: UICollectionViewCell {
     
+    /// Word label
     @IBOutlet weak var wordLabel: UILabel!
     
+    /// Setup game cell
     func setup(game: Game, card: Card, role: Role) {
         wordLabel.attributedText = nil
         wordLabel.text = card.word
@@ -71,6 +74,7 @@ class GameCell: UICollectionViewCell {
     }
 }
 
+/// Color extension
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {
         let newRed = CGFloat(red)/255

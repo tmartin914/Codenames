@@ -8,8 +8,10 @@
 
 import UIKit
 
+/// Game section header class
 class GameSectionHeader : UICollectionReusableView {
     
+    /// Header label
     @IBOutlet weak var headerLabel: UILabel!
     
     /*func setup(section: Int) {
