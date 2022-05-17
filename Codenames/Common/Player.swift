@@ -10,6 +10,7 @@ import Foundation
 
 /// Class that defines a player in a game
 class Player {
+    
     /// name of player
     var name: String
     
@@ -29,31 +30,13 @@ class Player {
     /// Initializer for prior to game start
     init(name: String, team: String) {
         self.name = name
-        
-        if team == "blue" || team == "Blue"{
-            self.team = Team.blue
-        }
-        else{
-            self.team = Team.red
-        }
+        self.team = (team == "blue" || team == "Blue") ? Team.blue : Team.red
     }
     
     /// Initializer with all string parameters
     init(name: String, team: String, role: String) {
         self.name = name
-        
-        if team == "blue" || team == "Blue" {
-            self.team = Team.blue
-        }
-        else{
-            self.team = Team.red
-        }
-        
-        if role == "cluer" || role == "Cluer" {
-            self.role = Role.cluer
-        }
-        else {
-            self.role = Role.guesser
-        }
+        self.team = (team == "blue" || team == "Blue") ? Team.blue : Team.red
+        self.role = (role == "cluer" || role == "Cluer") ? Role.cluer : Role.guesser
     }
 }

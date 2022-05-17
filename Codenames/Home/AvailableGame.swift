@@ -10,6 +10,7 @@ import Foundation
 
 /// Class for an available game. Used for selecting teams
 class AvailableGame {
+    
     /// Game code (4 character string)
     var gameCode: String
     
@@ -36,13 +37,7 @@ class AvailableGame {
     
     /// Returns whether a given user ID is in the game
     func isInGame(userId: String) -> Bool {
-        for player in redPlayers {
-            if userId == player.name {
-                return true
-            }
-        }
-        
-        for player in bluePlayers {
+        for player in getAllPlayers() {
             if userId == player.name {
                 return true
             }

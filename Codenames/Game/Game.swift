@@ -84,35 +84,15 @@ class Game {
     }
     
     /// Initializer given a game ID
-    init(gameID: String) {
+    convenience init(gameID: String) {
+        self.init()
         self.gameID = gameID
-        players = []
-        redScore = 0
-        blueScore = 0
-        redLeft = 0
-        blueLeft = 0
-        matchesPlayed = 0
-        gameCompleted = false
-        clue = "-1"
-        numClue = -1
-        guessesLeft = -1
-        words = getWordList()
     }
     
     /// Initializer given a game ID and list of players
-    init(gameID: String, players: [Player]) {
-        self.gameID = gameID
+    convenience init(gameID: String, players: [Player]) {
+        self.init(gameID: gameID)
         self.players = players
-        redScore = 0
-        blueScore = 0
-        redLeft = 0
-        blueLeft = 0
-        matchesPlayed = 0
-        gameCompleted = false
-        clue = "-1"
-        numClue = -1
-        guessesLeft = -1
-        words = getWordList()
     }
     
     /// Returns the game data as a dictionary
@@ -129,6 +109,7 @@ class Game {
         gameData["numClue"] = String(numClue)
         gameData["guessesLeft"] = String(guessesLeft)
         gameData["gameCompleted"] = gameCompleted.description
+        gameData["firstTeam"] = (firstTeam! == Team.blue) ? "blue" : "red"
         
         var turnOrderString = ""
         var i = 0
@@ -153,13 +134,6 @@ class Game {
             i += 1
         }
         gameData["firstTurnOrder"] = firstTurnOrderString
-        
-        switch firstTeam! {
-        case Team.blue:
-            gameData["firstTeam"] = "blue"
-        case Team.red:
-            gameData["firstTeam"] = "red"
-        }
         
         var boardString = ""
         i = 0
@@ -294,20 +268,8 @@ class Game {
         self.numClue = Int(numClue)!
         self.guessesLeft = Int(guessesLeft)!
         
-        if gameCompleted == "true" {
-            self.gameCompleted = true
-        } else {
-            self.gameCompleted = false
-        }
-        
-        switch firstTeam {
-        case "blue":
-            self.firstTeam = Team.blue
-        case "red":
-            self.firstTeam = Team.red
-        default:
-            self.firstTeam = nil
-        }
+        self.gameCompleted = (gameCompleted == "true")
+        self.firstTeam = (firstTeam == "blue") ? Team.blue : Team.red
         
         let cardStrings = board.components(separatedBy: ";")
         
@@ -447,31 +409,16 @@ class Game {
     
     /// Get the number of words left given a team
     func getNumLeft(team: Team) -> Int {
-        if team == .blue {
-            return blueLeft
-        }
-        else {
-            return redLeft
-        }
+        return (team == .blue) ? blueLeft : redLeft
     }
     
     /// Get the player in the game that has the same role as the given player
     func getSameRole(player: Player) -> Player {
         if player.team == Team.blue {
-            if player.name == bluePlayers[0].name {
-                return redPlayers[0]
-            }
-            else {
-                return redPlayers[1]
-            }
+            return (player.name == bluePlayers[0].name) ? redPlayers[0] : redPlayers[1]
         }
         else {
-            if player.name == redPlayers[0].name {
-                return bluePlayers[0]
-            }
-            else {
-                return bluePlayers[1]
-            }
+            return (player.name == redPlayers[0].name) ? bluePlayers[0] : bluePlayers[1]
         }
     }
 }

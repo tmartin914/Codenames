@@ -7,9 +7,18 @@
 //
 
 import Foundation
+import os.log
 
 /// Class for current player's game
+@available(iOS 14.0, *)
 class PlayerGame {
+    
+    /// Logger
+    private let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: PlayerGame.self)
+    )
+    
     /// Expected input date format
     let dateFormat = "MM-dd-yyyy hh:mm:ss"
     
@@ -52,25 +61,15 @@ class PlayerGame {
         self.gameID = gameID
         self.playerString = playerString
         self.turn = turn
+        self.started = (started == "true")
+        self.completed = (completed == "true")
         
         dateFormatter.dateFormat = dateFormat
         guard let timestampDate = dateFormatter.date(from: timestamp) else {
-            print ("Unable to convert timestamp \(timestamp) to date of format \(dateFormat)")
+            logger.error("Unable to convert timestamp \(timestamp) to date of format \(self.dateFormat)")
             return nil
         }
         self.timestamp = timestampDate
-        
-        if started == "true" {
-            self.started = true
-        } else {
-            self.started = false
-        }
-        
-        if completed == "true" {
-            self.completed = true
-        } else {
-            self.completed = false
-        }
         
         updatePlayers()
     }
@@ -99,22 +98,12 @@ class PlayerGame {
     {
         self.playerString = playerString
         self.turn = turn
+        self.started = (started == "true")
+        self.completed = (completed == "true")
         
-        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm:ss"
+        dateFormatter.dateFormat = dateFormat
         dateFormatter.locale = Locale.init(identifier: "en_GB")
         self.timestamp = dateFormatter.date(from: timestamp)!
-        
-        if started == "true" {
-            self.started = true
-        } else {
-            self.started = false
-        }
-        
-        if completed == "true" {
-            self.completed = true
-        } else {
-            self.completed = false
-        }
         
         updatePlayers()
     }
@@ -123,9 +112,9 @@ class PlayerGame {
         do {
             try updatePlayersHelper()
         } catch PlayerGameError.InvalidPlayerString {
-            print ("Could not update players")
+            logger.error("Could not update players")
         } catch {
-            print ("Unexpected error: \(error)")
+            logger.error("Unexpected error: \(error.localizedDescription)")
         }
     }
     
@@ -139,7 +128,7 @@ class PlayerGame {
             for string in playerString.components(separatedBy: ";") {
                 let attributeStrings = string.components(separatedBy: ",")
                 if attributeStrings.count != 2 {
-                    print ("Invalid player string: \(playerString)")
+                    logger.error("Invalid player string: \(self.playerString)")
                     throw PlayerGameError.InvalidPlayerString
                 }
                 players.append(Player(name: attributeStrings[0], team: attributeStrings[1]))
@@ -159,7 +148,7 @@ class PlayerGame {
     /// Gets the teammate of the current user
     func getTeammate() -> String {
         guard let teammate = team1.filter({ $0.name != userID }).first else {
-            print ("Unable to get teammate")
+            logger.error("Unable to get teammate")
             return ""
         }
         return teammate.name

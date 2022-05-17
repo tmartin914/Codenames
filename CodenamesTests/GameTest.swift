@@ -24,15 +24,20 @@ class GameTest: XCTestCase {
 
     /// Test updatePlayers()
     func testGameOver() {
-        // when/then
+        // when
         game.gameOver(winner: Team.blue)
+        
+        // then
         XCTAssert(game.gameCompleted)
         XCTAssertEqual("-1", game.turn)
         XCTAssertEqual(1, game.blueScore)
         XCTAssertEqual(0, game.redScore)
         XCTAssertEqual(1, game.matchesPlayed)
         
+        // when
         game.gameOver(winner: Team.red)
+        
+        // then
         XCTAssertEqual(1, game.blueScore)
         XCTAssertEqual(1, game.redScore)
         XCTAssertEqual(2, game.matchesPlayed)

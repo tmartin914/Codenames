@@ -9,6 +9,7 @@
 import UIKit
 
 /// Class for a game info cell
+@available(iOS 14.0, *)
 class GameInfoCell: UICollectionViewCell {
     
     /// Current user's team label
@@ -35,11 +36,7 @@ class GameInfoCell: UICollectionViewCell {
         layer.borderColor = UIColor.black.cgColor
         backgroundColor = UIColor(red: 245, green: 222, blue: 179)
         
-        if game.team1.count == 1 {
-            team1Label.text = "You"
-        } else {
-            team1Label.text = "You & \(game.getTeammate())"
-        }
+        team1Label.text = (game.team1.count == 1) ? "You" : "You & \(game.getTeammate())"
         
         if game.team2.count == 1 {
             team2Label.text = game.team2[0].name
