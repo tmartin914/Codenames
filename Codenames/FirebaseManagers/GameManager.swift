@@ -17,7 +17,7 @@ class GameManager: NSObject {
     static let ref = Database.database().reference()
     
     /// Game firebase reference
-    static let gameRef = ref.child("Games")
+    static let gameRef = ref.child(FirebaseConstants.GAMES_REF)
     
     /// List of games
     static var games = [Game]()

@@ -17,7 +17,7 @@ class PlayerGameManager: NSObject {
     static let ref = Database.database().reference ()
     
     /// Player firebase reference
-    static let playerRef = ref.child("Players")
+    static let playerRef = ref.child(FirebaseConstants.PLAYERS_REF)
     
     /// List of player games
     static var games = [PlayerGame]()
@@ -26,7 +26,7 @@ class PlayerGameManager: NSObject {
     static func recordPlayerGameStatus(playerID: String, gameID: String) {
         let gameData = getGame(gameID: gameID).getGameData()
         
-        playerRef.child(playerID).child("Games").child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+        playerRef.child(playerID).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
                 print("Data could not be saved: \(error).")
             }
@@ -53,7 +53,7 @@ class PlayerGameManager: NSObject {
     /// Load all player games frm the DB
     /// As new player games get created, update the game list
     static func loadGames(userID: String, completion: @escaping(_ result:String) -> Void) {
-        playerRef.child(userID).child("Games").observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
+        playerRef.child(userID).child(FirebaseConstants.GAMES_REF).observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
             let resultGames = snapshot.value as? NSDictionary
             if resultGames != nil {
                 for resultGame in resultGames! {
@@ -88,7 +88,7 @@ class PlayerGameManager: NSObject {
         gameData["completed"] = inGameData["gameCompleted"]
         
         for playerID in getGame(gameID: gameID).players {
-            playerRef.child(playerID.name).child("Games").child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+            playerRef.child(playerID.name).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
                 if let error = error {
                     print("Data could not be saved: \(error).")
                 }
@@ -101,7 +101,7 @@ class PlayerGameManager: NSObject {
     
     /// Update game data in DB given user & game UDs
     static func updateGame(userID: String, gameID: String, completion: @escaping(_ result:String) -> Void) {
-        playerRef.child(userID).child("Games").child(gameID).observe(DataEventType.value, with: { (snapshot) in
+        playerRef.child(userID).child(FirebaseConstants.GAMES_REF).child(gameID).observe(DataEventType.value, with: { (snapshot) in
             let resultValue = snapshot.value as? NSDictionary
             if resultValue != nil {
                 let playerString = resultValue?["playerString"] as? String ?? ""
@@ -119,7 +119,7 @@ class PlayerGameManager: NSObject {
             completion("")
         })
         
-        playerRef.child(userID).child("Games").child(gameID).observe(.childRemoved, with: { (snapshot) in
+        playerRef.child(userID).child(FirebaseConstants.GAMES_REF).child(gameID).observe(.childRemoved, with: { (snapshot) in
             if isGameID(gameID: gameID) {
                 let index = games.firstIndex(where: { $0.gameID == gameID })
                 games.remove(at: index!)
@@ -160,7 +160,7 @@ class PlayerGameManager: NSObject {
         
         games.append(PlayerGame(userID: userID, gameID: gameID, playerString: gameData["playerString"] as! String, turn: "-1", timestamp: timestamp, started: "false", completed: "false")!)
         
-        playerRef.child(userID).child("Games").child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+        playerRef.child(userID).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
                 print("Data could not be saved: \(error).")
             }
@@ -191,7 +191,7 @@ class PlayerGameManager: NSObject {
         let strings = playerString.components(separatedBy: ";")
         for string in strings {
             let attributeStrings = string.components(separatedBy: ",")
-            playerRef.child(attributeStrings[0]).child("Games").child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+            playerRef.child(attributeStrings[0]).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
                 if let error = error {
                     print("Data could not be saved: \(error).")
                 }
@@ -210,7 +210,7 @@ class PlayerGameManager: NSObject {
             games.remove(at: index!)
             for string in strings {
                 let attributeStrings = string.components(separatedBy: ",")
-                playerRef.child(attributeStrings[0]).child("Games").child(gameID).removeValue()
+                playerRef.child(attributeStrings[0]).child(FirebaseConstants.GAMES_REF).child(gameID).removeValue()
             }
         }
     }

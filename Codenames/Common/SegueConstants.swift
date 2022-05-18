@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class for constants used in segues
 class SegueConstants {
     
     /// Segue string to login view

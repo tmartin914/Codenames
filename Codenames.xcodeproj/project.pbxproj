@@ -39,6 +39,7 @@
 		7DA15C7828331BBF007C1B1E /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DA15C7728331BBF007C1B1E /* Card.swift */; };
 		7DBEDB6228351E88003599F2 /* SegueConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB6128351E88003599F2 /* SegueConstants.swift */; };
 		7DBEDB6428352084003599F2 /* ResourceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB6328352084003599F2 /* ResourceConstants.swift */; };
+		7DBEDB662835221C003599F2 /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB652835221C003599F2 /* FirebaseConstants.swift */; };
 		8DE5D65DEB512744B19C96C5 /* libPods-Codenames.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6F465A5737201AB25EA66EE /* libPods-Codenames.a */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		7DA15C7728331BBF007C1B1E /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		7DBEDB6128351E88003599F2 /* SegueConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueConstants.swift; sourceTree = "<group>"; };
 		7DBEDB6328352084003599F2 /* ResourceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceConstants.swift; sourceTree = "<group>"; };
+		7DBEDB652835221C003599F2 /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
 		7F3E3884335676138A2F2F04 /* Pods-Codenames.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Codenames.debug.xcconfig"; path = "Target Support Files/Pods-Codenames/Pods-Codenames.debug.xcconfig"; sourceTree = "<group>"; };
 		956461F1C379BD922B1920A5 /* Pods-Codenames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Codenames.release.xcconfig"; path = "Target Support Files/Pods-Codenames/Pods-Codenames.release.xcconfig"; sourceTree = "<group>"; };
 		A45AB4F53D3722FACC2AE200 /* libPods-CodenamesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CodenamesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +245,7 @@
 				7D67E613245C606B00C3C9C6 /* Defs.swift */,
 				7DBEDB6128351E88003599F2 /* SegueConstants.swift */,
 				7DBEDB6328352084003599F2 /* ResourceConstants.swift */,
+				7DBEDB652835221C003599F2 /* FirebaseConstants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				7D67E5F12453269F00C3C9C6 /* SceneDelegate.swift in Sources */,
 				7D67E62D24893EC700C3C9C6 /* HomeViewController.swift in Sources */,
 				7D45FEE72493D73200D1CC24 /* GameSectionHeader.swift in Sources */,
+				7DBEDB662835221C003599F2 /* FirebaseConstants.swift in Sources */,
 				7D67E614245C606B00C3C9C6 /* Defs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

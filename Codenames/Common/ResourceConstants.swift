@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class for constants needed to retrieve resource data
 class ResourceConstants {
     
     /// Dark Table image name
