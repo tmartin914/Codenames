@@ -126,7 +126,9 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Start game
     @IBAction func startGame(_ sender: Any) {
-        self.performSegue(withIdentifier: SegueConstants.SHOW_GAME_SEGUE, sender: self)
+        GameManager.loadGames() { (result:String) in
+            self.performSegue(withIdentifier: SegueConstants.SHOW_GAME_SEGUE, sender: self)
+        }
     }
     
     /// Reset teams
