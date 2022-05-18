@@ -12,6 +12,7 @@ import Firebase
 /// Class for managing games and interacting with Firebase
 @available(iOS 14.0, *)
 class GameManager: NSObject {
+    
     /// Firebase reference
     static let ref = Database.database().reference()
     

@@ -48,7 +48,7 @@ class LoginViewController: UIViewController {
         Auth.auth().signIn(withEmail: loginEmail, password: loginPassword.text!){ (user, error) in
             if error == nil{
                 self.logger.info("Successful login as \(self.loginUsername.text!)")
-                self.performSegue(withIdentifier: "showHome", sender: self)
+                self.performSegue(withIdentifier: SegueConstants.SHOW_HOME_SEGUE, sender: self)
             }
             else{
                 self.logger.error("Invalid credentials for user: \(self.loginUsername.text!)")
@@ -76,7 +76,7 @@ class LoginViewController: UIViewController {
                     print(error.debugDescription)
                 })
                 
-                self.performSegue(withIdentifier: "showHome", sender: self)
+                self.performSegue(withIdentifier: SegueConstants.SHOW_HOME_SEGUE, sender: self)
             }
             else{
                 self.logger.error("Unable to create new user: \(self.newUsername.text!)")
@@ -93,7 +93,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "darkTable.jpg")!)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: ResourceConstants.DARK_TABLE_IMAGE)!)
         
         nameLabel.textColor = UIColor(red: 245, green: 222, blue: 179)
         
@@ -112,7 +112,7 @@ class LoginViewController: UIViewController {
         if Auth.auth().currentUser != nil{
             PlayerGameManager.loadGames(userID: (Auth.auth().currentUser!.email?.components(separatedBy: "@")[0])! ) { (result:String) in
                 DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "showHome", sender: nil)
+                    self.performSegue(withIdentifier: SegueConstants.SHOW_HOME_SEGUE, sender: nil)
                 }
             }
         }

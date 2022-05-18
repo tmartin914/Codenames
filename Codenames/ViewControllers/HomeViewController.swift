@@ -72,7 +72,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBAction func logout(_ sender: Any) {
         do{
             try Auth.auth().signOut()
-            self.performSegue(withIdentifier: "showLogin", sender: self)
+            self.performSegue(withIdentifier: SegueConstants.SHOW_LOGIN_SEGUE, sender: self)
         }
         catch let signOutError as NSError{
             self.logger.error("Error signing out: \(signOutError)")
@@ -120,12 +120,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     /// Go to the given page
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showTeamSelect" {
+        if segue.identifier == SegueConstants.SHOW_TEAM_SELECT_SEGUE {
             if let destinationVC = segue.destination as? TeamSelectViewController {
                 destinationVC.gameCode = gameCode!
                 destinationVC.gameID = gameID!
             }
-        } else if segue.identifier == "showGame" {
+        } else if segue.identifier == SegueConstants.SHOW_GAME_SEGUE {
             if let destinationVC = segue.destination as? GameViewController {
                 destinationVC.game = GameManager.getGame(gameID: gameID!)
             }
@@ -147,7 +147,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             DispatchQueue.main.async {
                 self.updateGames();
                 if self.goToTeamSelect {
-                    self.performSegue(withIdentifier: "showTeamSelect", sender: self)
+                    self.performSegue(withIdentifier: SegueConstants.SHOW_TEAM_SELECT_SEGUE, sender: self)
                 }
             }
         }
@@ -157,7 +157,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "darkTable.jpg")!)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: ResourceConstants.DARK_TABLE_IMAGE)!)
         
         let buttons = [newGameBtn, logoutBtn, joinBtn]
         for button in buttons {

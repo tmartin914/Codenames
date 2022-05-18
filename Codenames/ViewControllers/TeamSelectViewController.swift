@@ -89,7 +89,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Segue to game view
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showGame" {
+        if segue.identifier == SegueConstants.SHOW_GAME_SEGUE {
             if let destinationVC = segue.destination as? GameViewController {
                 //destinationVC.game = GameManager.getGame(gameID: AvailableGameManager.getGame(gameCode: gameCode!).gameID)
                 destinationVC.game = GameManager.getGame(gameID: gameID!)
@@ -122,7 +122,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Segue to home view
     @IBAction func goBack(_ sender: Any) {
-        self.performSegue(withIdentifier: "backToHome", sender: self)
+        self.performSegue(withIdentifier: SegueConstants.BACK_TO_HOME_SEGUE, sender: self)
     }
     
     /// Start game
@@ -133,7 +133,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
                 self.performSegue(withIdentifier: "showGame", sender: self)
             }
         }*/
-        self.performSegue(withIdentifier: "showGame", sender: self)
+        self.performSegue(withIdentifier: SegueConstants.SHOW_GAME_SEGUE, sender: self)
     }
     
     /// Reset teams
@@ -198,7 +198,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "darkTable.jpg")!)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: ResourceConstants.DARK_TABLE_IMAGE)!)
         
         let buttons = [backBtn, startGameBtn, resetTeamsBtn, redJoinBtn, blueJoinBtn]
         for button in buttons {

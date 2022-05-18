@@ -326,7 +326,7 @@ class Game {
     
     /// Get list of game words
     func getWordList() -> [String] {
-        if let path = Bundle.main.path(forResource: "allWords", ofType: "txt") {
+        if let path = Bundle.main.path(forResource: ResourceConstants.ALL_WORDS_FILE, ofType: "txt") {
             do {
                 let data = try String(contentsOfFile: path, encoding: .utf8)
                 let words = data.components(separatedBy: .newlines).filter({ $0 != "" })

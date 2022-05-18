@@ -77,7 +77,7 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     /// Segue to home view
     @IBAction func goBack(_ sender: Any) {
-        self.performSegue(withIdentifier: "backToHome", sender: self)
+        self.performSegue(withIdentifier: SegueConstants.BACK_TO_HOME_SEGUE, sender: self)
     }
     
     /// Submit guess
@@ -285,7 +285,7 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
         setCurrentPlayer()
         
         // TODO: give them background options - to start maybe do dark for guesser and light for cluer
-        self.view.backgroundColor = UIColor(patternImage: UIImage(named: "darkTable.jpg")!)
+        self.view.backgroundColor = UIColor(patternImage: UIImage(named: ResourceConstants.DARK_TABLE_IMAGE)!)
         
         collectionView.backgroundColor = UIColor.clear
         
