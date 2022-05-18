@@ -23,9 +23,13 @@ class AvailableGameManager: NSObject {
     
     /// Record game status in DB given the game code
     static func recordGameStatus(gameCode: String) {
-        let gameData = getGame(gameCode: gameCode).getGameData()
+        //let gameData = getGame(gameCode: gameCode).getGameData()
+        let encodedData = try! JSONEncoder().encode(getGame(gameCode: gameCode))
+        let jsonString = String(data: encodedData,
+                                encoding: .utf8)
+        //let gameData = jsonString
         
-        availableGameRef.child(gameCode).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+        availableGameRef.child(gameCode).setValue(jsonString, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
                 print("Data could not be saved: \(error).")
             }
@@ -37,14 +41,21 @@ class AvailableGameManager: NSObject {
     
     /// Create a new game for a given user ID
     static func createNewGame(userID: String) -> (String,String) {
-        let gameData: NSMutableDictionary = [:]
+        //let gameData: NSMutableDictionary = [:]
         let gameCode = generateGameCode()
         let gameID = UUID().description
         
-        gameData["gameID"] = gameID
-        gameData["playerString"] = userID + ",blue"
+        let newGame = AvailableGame(gameCode: generateGameCode(), gameID: UUID().description)
+        let encodedData = try! JSONEncoder().encode(newGame)
+        let jsonString = String(data: encodedData,
+                                encoding: .utf8)
         
-        availableGameRef.child(gameCode).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
+//        gameData["gameID"] = gameID
+//        gameData["playerString"] = userID + ",blue"
+        
+        availableGameRef.child(gameCode).setDa
+        
+        availableGameRef.child(gameCode).setValue(jsonString, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
                 print("Data could not be saved: \(error).")
             }
@@ -89,46 +100,19 @@ class AvailableGameManager: NSObject {
         
         availableGameRef.queryOrdered(byChild: "uid").observe(.childAdded, with: {
             snapshot in
-            let resultValue = snapshot.value as? NSDictionary
-            if resultValue != nil {
-                var players = [Player]()
-                let gameID = resultValue?["gameID"] as? String ?? ""
-                let playerString = resultValue?["playerString"] as? String ?? ""
-                let game = AvailableGame(gameCode: snapshot.key, gameID: gameID, playerString: playerString)
-                
-                if playerString != "" {
-                    for string in playerString.components(separatedBy: ";") {
-                        let attributeStrings = string.components(separatedBy: ",")
-                        players.append(Player(name: attributeStrings[0], team: attributeStrings[1]))
-                    }
-                    
-                    for player in players {
-                        if player.team == .blue {
-                            game.bluePlayers.append(player)
-                        } else {
-                            game.redPlayers.append(player)
-                        }
-                    }
-                }
-                
+//            let resultValue = snapshot.value as? NSDictionary
+            guard let resultValue = snapshot.value else { return }
+            //if resultValue != nil {
+            do {
+                let game = try JSONDecoder().decode(AvailableGame.self, from: resultValue as! String)
                 games.append(game)
+            } catch let error {
+                print(error)
             }
             completion("")
         })
-        
-        /*availableGameRef.queryOrdered(byChild: "uid").observe(.childChanged, with: {
-            snapshot in
-            let resultValue = snapshot.value as? NSDictionary
-            if resultValue != nil {
-                let playerString = resultValue?["playerString"] as? String ?? ""
-                
-                /*let game = games.filter { $0.gameCode == snapshot.key }.first
-                game!.playerString = playerString*/
-                //games.filter { $0.gameCode == snapshot.key }.first!.playerString = playerString
-                games.filter { $0.gameCode == gameCode }.first!.playerString = playerString
-            }
-            completion("")
-        })*/
+//            completion("")
+//        })
         
         availableGameRef.queryOrdered(byChild: "uid").observe(.childRemoved, with: {
             snapshot in
@@ -146,11 +130,20 @@ class AvailableGameManager: NSObject {
     static func watchGame(gameCode: String, completion: @escaping(_ result:String) -> Void) {
         availableGameRef.child(gameCode).observe(DataEventType.value, with: {
             snapshot in
-            let resultValue = snapshot.value as? NSDictionary
-            if resultValue != nil {
-                let playerString = resultValue?["playerString"] as? String ?? ""
-                
-                games.filter { $0.gameCode == gameCode }.first!.updatePlayers(playerString: playerString)
+//            let resultValue = snapshot.value as? NSDictionary
+//            if resultValue != nil {
+//                let playerString = resultValue?["playerString"] as? String ?? ""
+//
+//                games.filter { $0.gameCode == gameCode }.first!.updatePlayers(playerString: playerString)
+//            }
+            guard let resultValue = snapshot.value else { return }
+            //if resultValue != nil {
+            do {
+                let game = try JSONDecoder().decode(AvailableGame.self, from: resultValue as! Data)
+                var gameToUpdate = games.filter { $0.gameCode == gameCode }.first!
+                gameToUpdate = game
+            } catch let error {
+                print(error)
             }
             completion("")
         })

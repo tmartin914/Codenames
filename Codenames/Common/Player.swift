@@ -9,7 +9,7 @@
 import Foundation
 
 /// Class that defines a player in a game
-class Player {
+class Player : Codable {
     
     /// name of player
     var name: String

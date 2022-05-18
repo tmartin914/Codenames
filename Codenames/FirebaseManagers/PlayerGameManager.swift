@@ -25,6 +25,10 @@ class PlayerGameManager: NSObject {
     /// Record player game status in the DB given player & game IDs
     static func recordPlayerGameStatus(playerID: String, gameID: String) {
         let gameData = getGame(gameID: gameID).getGameData()
+//        let encodedData = try JSONEncoder().encode(getGame(gameID: gameID))
+//        let jsonString = String(data: encodedData,
+//                                encoding: .utf8)
+//        let gameData = encodedData
         
         playerRef.child(playerID).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {

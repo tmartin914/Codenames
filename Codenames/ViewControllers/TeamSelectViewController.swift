@@ -99,7 +99,7 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Join given team
     func joinTeam(team: String) {
-        AvailableGameManager.getGame(gameCode: gameCode!).updatePlayerString(userID: userID!, team: team)
+        AvailableGameManager.getGame(gameCode: gameCode!).addPlayer(name: userID!, team: team)
         //AvailableGameManager.recordGameStatus(gameCode: gameCode!)
         
         let gameData = AvailableGameManager.getGame(gameCode: gameCode!).getGameData()

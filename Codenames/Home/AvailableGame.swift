@@ -9,7 +9,7 @@
 import Foundation
 
 /// Class for an available game. Used for selecting teams
-class AvailableGame {
+class AvailableGame : Codable {
     
     /// Game code (4 character string)
     var gameCode: String
@@ -18,7 +18,7 @@ class AvailableGame {
     var gameID: String
     
     /// Player info as a string
-    var playerString: String
+    //var playerString: String
     
     /// List of players on the blue team
     var bluePlayers = [Player]()
@@ -27,12 +27,18 @@ class AvailableGame {
     var redPlayers = [Player]()
     
     /// Parameterized Initializer
+    init(gameCode: String, gameID: String) {
+        self.gameCode = gameCode
+        self.gameID = gameID
+    }
+    
+    /// Parameterized Initializer
     init(gameCode: String, gameID: String, playerString: String) {
         self.gameCode = gameCode
         self.gameID = gameID
-        self.playerString = playerString
+        //self.playerString = playerString
         
-        updatePlayers(playerString: playerString)
+        //updatePlayers(playerString: playerString)
     }
     
     /// Returns whether a given user ID is in the game
@@ -53,7 +59,7 @@ class AvailableGame {
         redPlayers[0].role = Role.cluer
         redPlayers[1].role = Role.guesser
         
-        playerString = "\(bluePlayers[0].name),\(bluePlayers[0].team),\(bluePlayers[0].role!);\(bluePlayers[1].name),\(bluePlayers[1].team),\(bluePlayers[1].role!);\(redPlayers[0].name),\(redPlayers[0].team),\(redPlayers[0].role!);\(redPlayers[1].name),\(redPlayers[1].team),\(redPlayers[1].role!);"
+        //playerString = "\(bluePlayers[0].name),\(bluePlayers[0].team),\(bluePlayers[0].role!);\(bluePlayers[1].name),\(bluePlayers[1].team),\(bluePlayers[1].role!);\(redPlayers[0].name),\(redPlayers[0].team),\(redPlayers[0].role!);\(redPlayers[1].name),\(redPlayers[1].team),\(redPlayers[1].role!);"
     }
     
     /// Returns all the players in the game
@@ -62,13 +68,13 @@ class AvailableGame {
     }
     
     /// Update the player string given inputs
-    func updatePlayerString(userID: String, team: String) {
-        if playerString == "" {
-            playerString = "\(userID),\(team)"
-        } else {
-            playerString += ";\(userID),\(team)"
-        }
-    }
+//    func updatePlayerString(userID: String, team: String) {
+//        if playerString == "" {
+//            playerString = "\(userID),\(team)"
+//        } else {
+//            playerString += ";\(userID),\(team)"
+//        }
+//    }
     
     /// Update the players given the player string
     func updatePlayers(playerString: String) {
@@ -76,7 +82,7 @@ class AvailableGame {
         
         bluePlayers = []
         redPlayers = []
-        self.playerString = playerString
+        //self.playerString = playerString
         
         if playerString != "" {
             for string in playerString.components(separatedBy: ";") {
@@ -99,15 +105,24 @@ class AvailableGame {
         let gameData: NSMutableDictionary = [:]
     
         gameData["gameID"] = gameID
-        gameData["playerString"] = playerString
+        //gameData["playerString"] = playerString
         
         return gameData
     }
     
     /// Clears the players in the game
     func clearPlayers() {
-        playerString = ""
+        //playerString = ""
         bluePlayers = []
         redPlayers = []
+    }
+    
+    /// Add player to game with given name and team
+    func addPlayer(name: String, team: String) {
+        if (team == "blue") {
+            bluePlayers.append(Player(name: name, team: team))
+        } else {
+            redPlayers.append(Player(name: name, team: team))
+        }
     }
 }

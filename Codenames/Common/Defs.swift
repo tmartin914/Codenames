@@ -14,12 +14,12 @@ enum Color : String {
 }
 
 /// Player team enum
-enum Team : String {
+enum Team : String, Codable {
     case red, blue
 }
 
 /// Player role enum
-enum Role : String {
+enum Role : String, Codable {
     case guesser, cluer
 }
 
