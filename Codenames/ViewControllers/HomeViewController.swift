@@ -178,11 +178,12 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         currentUID = Auth.auth().currentUser!.uid
         userID = Auth.auth().currentUser!.email?.components(separatedBy: "@")[0]
         
-        /*PlayerGameManager.loadGames(userID: userID!) { (result:String) in
-
-        }*/
+        PlayerGameManager.games = []
+        PlayerGameManager.loadGames(userID: userID!) { (result:String) in
+            self.updateGames()
+        }
         
-        self.updateGames();
+        //self.updateGames();
     }
     
     // UICollectionViewDataSource methods
@@ -219,6 +220,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
         
         let game = PlayerGameManager.getGameByStatus(status: status, index: indexPath.item)
+        game.updatePlayers()
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gameInfoCell", for: indexPath) as! GameInfoCell
         cell.setup(game: game)
         
@@ -253,10 +255,10 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         gameID = cell.gameID
         
         if GameManager.isGameID(gameID: gameID!) {
-            self.performSegue(withIdentifier: "showGame", sender: self)
+            self.performSegue(withIdentifier: SegueConstants.SHOW_GAME_SEGUE, sender: self)
         } else {
             gameCode = AvailableGameManager.getGameCode(gameID: gameID!)
-            self.performSegue(withIdentifier: "showTeamSelect", sender: self)
+            self.performSegue(withIdentifier: SegueConstants.SHOW_TEAM_SELECT_SEGUE, sender: self)
         }
         
     }

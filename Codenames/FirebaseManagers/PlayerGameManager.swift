@@ -8,10 +8,17 @@
 
 import UIKit
 import Firebase
+import os.log
 
 /// Class for managing player games and interacting with Firebase
 @available(iOS 14.0, *)
 class PlayerGameManager: NSObject {
+    
+    /// Logger
+    private static let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: PlayerGameManager.self)
+    )
     
     /// Firebase reference
     static let ref = Database.database().reference ()
@@ -28,7 +35,7 @@ class PlayerGameManager: NSObject {
         
         playerRef.child(playerID).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                logger.error("Data could not be saved: \(error.localizedDescription).")
             }
             else {
                 // Do Nothing
@@ -90,7 +97,7 @@ class PlayerGameManager: NSObject {
         for playerID in getGame(gameID: gameID).players {
             playerRef.child(playerID.name).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
                 if let error = error {
-                    print("Data could not be saved: \(error).")
+                    logger.error("Data could not be saved: \(error.localizedDescription).")
                 }
                 else {
                     // Do Nothing
@@ -162,7 +169,7 @@ class PlayerGameManager: NSObject {
         
         playerRef.child(userID).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                logger.error("Data could not be saved: \(error.localizedDescription).")
             }
             else {
                 // Do Nothing
@@ -193,7 +200,7 @@ class PlayerGameManager: NSObject {
             let attributeStrings = string.components(separatedBy: ",")
             playerRef.child(attributeStrings[0]).child(FirebaseConstants.GAMES_REF).child(gameID).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
                 if let error = error {
-                    print("Data could not be saved: \(error).")
+                    logger.error("Data could not be saved: \(error.localizedDescription).")
                 }
                 else {
                     // Do Nothing

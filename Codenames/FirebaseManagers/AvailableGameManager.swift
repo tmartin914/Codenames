@@ -8,9 +8,17 @@
 
 import UIKit
 import Firebase
+import os.log
 
 /// Class for managing available games and interacting with Firebase
+@available(iOS 14.0, *)
 class AvailableGameManager: NSObject {
+    
+    /// Logger
+    private static let logger = Logger(
+            subsystem: Bundle.main.bundleIdentifier!,
+            category: String(describing: PlayerGameManager.self)
+    )
     
     /// Firebase reference
     static let ref = Database.database().reference()
@@ -27,7 +35,7 @@ class AvailableGameManager: NSObject {
         
         availableGameRef.child(gameCode).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                logger.error("Data could not be saved: \(error.localizedDescription).")
             }
             else {
                 // Do Nothing
@@ -46,7 +54,7 @@ class AvailableGameManager: NSObject {
         
         availableGameRef.child(gameCode).setValue(gameData, withCompletionBlock: { (error:Error?, dbRef:DatabaseReference?) in
             if let error = error {
-                print("Data could not be saved: \(error).")
+                logger.error("Data could not be saved: \(error.localizedDescription).")
             }
             else {
                 // Do Nothing
@@ -115,20 +123,6 @@ class AvailableGameManager: NSObject {
             }
             completion("")
         })
-        
-        /*availableGameRef.queryOrdered(byChild: "uid").observe(.childChanged, with: {
-            snapshot in
-            let resultValue = snapshot.value as? NSDictionary
-            if resultValue != nil {
-                let playerString = resultValue?["playerString"] as? String ?? ""
-                
-                /*let game = games.filter { $0.gameCode == snapshot.key }.first
-                game!.playerString = playerString*/
-                //games.filter { $0.gameCode == snapshot.key }.first!.playerString = playerString
-                games.filter { $0.gameCode == gameCode }.first!.playerString = playerString
-            }
-            completion("")
-        })*/
         
         availableGameRef.queryOrdered(byChild: "uid").observe(.childRemoved, with: {
             snapshot in

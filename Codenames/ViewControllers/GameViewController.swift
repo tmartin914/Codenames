@@ -120,7 +120,7 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
                 GameManager.recordGameStatus(gameID: game.gameID)
             }
         } else {
-            if collectionView.indexPathsForSelectedItems == nil {
+            if collectionView.indexPathsForSelectedItems == nil || collectionView.indexPathsForSelectedItems?.first?.item == nil {
                 let alert = UIAlertController(title: "No Word Selected", message: "Please select a word!", preferredStyle: .alert)
                 
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -234,12 +234,15 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     /// Return number of items in section
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        setCurrentPlayer()
+        setGame()
         return 25
     }
     
     /// Return cell at index
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gameCell", for: indexPath) as! GameCell
+        //setCurrentPlayer()
         cell.setup(game: game, card: (game.board![indexPath.item]), role: currentPlayer!.role!)
         return cell
     }

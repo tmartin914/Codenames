@@ -91,7 +91,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == SegueConstants.SHOW_GAME_SEGUE {
             if let destinationVC = segue.destination as? GameViewController {
-                //destinationVC.game = GameManager.getGame(gameID: AvailableGameManager.getGame(gameCode: gameCode!).gameID)
                 destinationVC.game = GameManager.getGame(gameID: gameID!)
             }
         }
@@ -127,12 +126,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
     
     /// Start game
     @IBAction func startGame(_ sender: Any) {
-        /*let game = AvailableGameManager.getGame(gameCode: gameCode!)
-        GameManager.updateGame(gameID: game.gameID) { (result:String) in
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "showGame", sender: self)
-            }
-        }*/
         self.performSegue(withIdentifier: SegueConstants.SHOW_GAME_SEGUE, sender: self)
     }
     

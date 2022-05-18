@@ -127,7 +127,7 @@ class PlayerGame {
         if playerString != "" {
             for string in playerString.components(separatedBy: ";") {
                 let attributeStrings = string.components(separatedBy: ",")
-                if attributeStrings.count != 2 {
+                if attributeStrings.count != 2 && attributeStrings.count != 3 {
                     logger.error("Invalid player string: \(self.playerString)")
                     throw PlayerGameError.InvalidPlayerString
                 }
