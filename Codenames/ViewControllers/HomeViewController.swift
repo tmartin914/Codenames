@@ -85,12 +85,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         gameCode = tempGameCode
         gameID = tempGameID
         PlayerGameManager.createNewGame(userID: userID!, gameID: gameID!)
-        //gameID = AvailableGameManager.getGame(gameCode: gameCode!).gameID
-        /*AvailableGameManager.watchGames() { (result:String) in
-            DispatchQueue.main.async {
-                 self.performSegue(withIdentifier: "showTeamSelect", sender: self)
-            }
-        }*/
         goToTeamSelect = true
     }
     
@@ -182,8 +176,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         PlayerGameManager.loadGames(userID: userID!) { (result:String) in
             self.updateGames()
         }
-        
-        //self.updateGames();
     }
     
     // UICollectionViewDataSource methods
@@ -226,23 +218,6 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         
         return cell
     }
-    
-    /*func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "sectionHeader", for: indexPath) as! GameSectionHeader
-        /*headerView.setup(section: indexPath.section)
-        headerView.backgroundColor = UIColor.blue
-        return headerView*/
-        
-        if collectionView == notStartedCollectionView {
-            headerView.headerLabel.text = "Not Started:"
-        } else if collectionView == inProgressCollectionView {
-            headerView.headerLabel.text = "In Progress:"
-        } else if collectionView == completedCollectionView {
-            headerView.headerLabel.text = "Completed:"
-        }
-        
-        return headerView
-    }*/
     
     /// Returns size of collection view
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

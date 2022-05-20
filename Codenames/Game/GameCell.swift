@@ -44,12 +44,7 @@ class GameCell: UICollectionViewCell {
                 let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: card.word)
                 attributeString.addAttribute(NSAttributedString.Key.strikethroughStyle, value: 2, range: NSMakeRange(0, attributeString.length))
                 wordLabel.attributedText = attributeString
-            } /*else {
-                let attributeString: NSMutableAttributedString = NSMutableAttributedString(string: card.word)
-                attributeString.removeAttribute(NSAttributedString.Key.strikethroughStyle, range: NSMakeRange(0, attributeString.length))
-                wordLabel.attributedText = attributeString
-                wordLabel.attributedText
-            }*/
+            }
         } else {
             if card.guessed {
                 switch card.color {

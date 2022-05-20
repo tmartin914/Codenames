@@ -115,8 +115,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         })
         
         PlayerGameManager.joinGame(userID: userID!, gameID: gameID!, playerString: gameData["playerString"] as! String)
-        //PlayerGameManager.getGame(gameID: gameID!).updatePlayerString(playerString: gameData["playerString"]! as! String)
-        //PlayerGameManager.recordPlayerGameStatus(playerID: userID!, gameID: gameID!)
     }
     
     /// Segue to home view
@@ -138,7 +136,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         self.updatePlayers()
         
         PlayerGameManager.removeGame(gameID: gameID!, userID: userID!)
-        //PlayerGameManager.recordPlayerGameStatus(playerID: userID!, gameID: gameID!)
     }
     
     /// Create new game
@@ -215,14 +212,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
             label!.textColor = UIColor.white
         }
         
-        /*let viewWidth = self.view.frame.size.width
-        let origin = blueLabel.frame.origin
-        let originx = origin.x
-        let originy = origin.y
-        print("\(originx) \(origin.y)")
-        blueLabel.frame.origin = CGPoint(x: viewWidth/4, y: origin.y)
-        redLabel.frame.origin = CGPoint(x: viewWidth*3/4, y: origin.y)*/
-        
         blueJoinBtn.isHidden = true;
         redJoinBtn.isHidden = true;
         startGameBtn.isHidden = true;
@@ -232,7 +221,6 @@ class TeamSelectViewController: UIViewController, UITableViewDataSource, UITable
         
         currentUID = Auth.auth().currentUser!.uid
         
-        //let displayName = Auth.auth().currentUser!.displayName
         userID = Auth.auth().currentUser!.email?.components(separatedBy: "@")[0]
         
         self.updatePlayers();

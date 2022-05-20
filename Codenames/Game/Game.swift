@@ -10,6 +10,7 @@ import Foundation
 
 /// Class for a game
 class Game {
+    
     /// List of players in game
     var players: [Player]
     
@@ -317,8 +318,6 @@ class Game {
             return (firstTeam == Team.blue) ? Team.blue : Team.red
         }
         else {
-            //let num = Int.random(in: 0..<2)
-            //return (num == 0) ? Team.blue : Team.red
             // TODO: this will need to be updated if we want it to be random
             return players[0].team
         }

@@ -202,7 +202,6 @@ class GameViewController: UIViewController, UICollectionViewDataSource, UICollec
     func setCurrentPlayer() {
         currentUID = Auth.auth().currentUser!.uid
         
-        //let displayName = Auth.auth().currentUser!.displayName
         userID = Auth.auth().currentUser!.email?.components(separatedBy: "@")[0]
         
         for player in game.players {
