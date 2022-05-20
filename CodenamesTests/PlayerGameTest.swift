@@ -9,7 +9,10 @@
 import XCTest
 @testable import Codenames
 
+/// Class for testing PlayerGame
 class PlayerGameTest: XCTestCase {
+    
+    /// PlayerGame for testing
     var playerGame: PlayerGame!
     
     override func setUpWithError() throws {

@@ -40,6 +40,7 @@
 		7DBEDB6228351E88003599F2 /* SegueConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB6128351E88003599F2 /* SegueConstants.swift */; };
 		7DBEDB6428352084003599F2 /* ResourceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB6328352084003599F2 /* ResourceConstants.swift */; };
 		7DBEDB662835221C003599F2 /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DBEDB652835221C003599F2 /* FirebaseConstants.swift */; };
+		7DD2C75A2837D8BF002A20BF /* GameManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DD2C7592837D8BF002A20BF /* GameManagerTest.swift */; };
 		8DE5D65DEB512744B19C96C5 /* libPods-Codenames.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6F465A5737201AB25EA66EE /* libPods-Codenames.a */; };
 /* End PBXBuildFile section */
 
@@ -91,6 +92,7 @@
 		7DBEDB6128351E88003599F2 /* SegueConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueConstants.swift; sourceTree = "<group>"; };
 		7DBEDB6328352084003599F2 /* ResourceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceConstants.swift; sourceTree = "<group>"; };
 		7DBEDB652835221C003599F2 /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
+		7DD2C7592837D8BF002A20BF /* GameManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManagerTest.swift; sourceTree = "<group>"; };
 		7F3E3884335676138A2F2F04 /* Pods-Codenames.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Codenames.debug.xcconfig"; path = "Target Support Files/Pods-Codenames/Pods-Codenames.debug.xcconfig"; sourceTree = "<group>"; };
 		956461F1C379BD922B1920A5 /* Pods-Codenames.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Codenames.release.xcconfig"; path = "Target Support Files/Pods-Codenames/Pods-Codenames.release.xcconfig"; sourceTree = "<group>"; };
 		A45AB4F53D3722FACC2AE200 /* libPods-CodenamesTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CodenamesTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -179,6 +181,7 @@
 		7D91C348282EF72800DDF128 /* CodenamesTests */ = {
 			isa = PBXGroup;
 			children = (
+				7DD2C7592837D8BF002A20BF /* GameManagerTest.swift */,
 				7D91C3612831A6EB00DDF128 /* AvailableGameTest.swift */,
 				7D91C35F2831978A00DDF128 /* GameTest.swift */,
 				7D91C350282EF7D900DDF128 /* PlayerGameTest.swift */,
@@ -454,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7D91C3622831A6EB00DDF128 /* AvailableGameTest.swift in Sources */,
+				7DD2C75A2837D8BF002A20BF /* GameManagerTest.swift in Sources */,
 				7D91C351282EF7D900DDF128 /* PlayerGameTest.swift in Sources */,
 				7D91C3602831978A00DDF128 /* GameTest.swift in Sources */,
 			);

@@ -9,12 +9,15 @@
 import XCTest
 @testable import Codenames
 
+/// Class for testing Game
 class GameTest: XCTestCase {
+    
+    /// Game for testing
     var game: Game!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        game = getTestGame()
+        game = GameTest.getTestGame()
     }
 
     override func tearDownWithError() throws {
@@ -144,7 +147,7 @@ class GameTest: XCTestCase {
     // TODO: write remaining tests
     
     /// Returns a Game object for testing
-    func getTestGame() -> Game {
+    static func getTestGame() -> Game {
         var players : [Player] = []
         players.append(Player(name: "ty", team: Team.blue, role: Role.cluer))
         players.append(Player(name: "zack", team: Team.blue, role: Role.guesser))
